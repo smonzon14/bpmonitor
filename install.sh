@@ -1,13 +1,13 @@
 #!/bin/bash
+PWD= pwd
 RED='\033[0;31m'
 NC='\033[0m'
 printf "Install ${RED}BPMonitor${NC} version 0.0.0?"
 echo ""
 read input
 if [ "$input" == y ]; then
-mkdir -p ~/bpmonitor
-cd ~/bpmonitor
-chmod 777 bpm
+cd "${PWD}"
+chmod 755 bpm
 sudo rm //usr/bin/bpm
 sudo cp bpm /usr/bin
 echo '-------------------------------'
