@@ -1,0 +1,45 @@
+#!/usr/bin/python
+import psutil
+import numpy
+import time
+import math
+import sys
+import os
+import socket
+while True:
+	time.sleep(0.2)
+	os.system("tput reset")
+	#Header
+	print (psutil.get_users()[0].name.upper() + " @ " + ([(s.connect(('8.8.8.8', 80)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]))
+	os.system('date')
+	print ('\033[1;37m>\033[1;m' * 25)
+	#Cpu
+	cpuperc = (round(numpy.array(psutil.cpu_percent(percpu=True)).mean(),1))
+	cpupercrnd = int(round(cpuperc)/2)
+	#Memory
+	du = psutil.disk_usage('/').percent
+	duperc = int(round(du)/2)
+	
+	def bargraph(process, rnd):
+		global bars
+		global unused_bars
+		if process < 50:
+			bars = ('\033[1;34m|\033[1;m' * rnd)
+		elif process > 50 and cpuperc < 80:
+			bars = ('\033[1;33m|\033[1;m' * rnd)
+		elif process > 80:
+			bars = ('\033[1;31m|\033[1;m' * rnd)
+		unused_bars = ("\033[1;30m|\033[1;m" * (50 - rnd))
+	divline = ("\033[1;30m-\033[1;m" * 56)
+	bargraph(cpuperc, cpupercrnd)
+	print("\033[1;37mCPU:  \033[1;m" + bars + unused_bars)
+	print(cpuperc)
+	print divline
+	bargraph(du, duperc)
+	print("\033[1;37mMEM:  \033[1;m" + bars + unused_bars)
+	print("{0:.0f}%".format(du))
+	print divline
+	print("\033[1;37mCONNECTIONS:  \033[1;m")
+	os.system("iwconfig | grep wlan0")
+	print divline
+	print divline
