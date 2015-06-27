@@ -5,6 +5,7 @@ printf "Install ${RED}BPMonitor${NC} version 0.0.0?"
 echo ""
 read input
 if [ "$input" == y ]; then
+mkdir -p ~/bpmonitor
 cd ~/bpmonitor
 chmod 777 bpm
 sudo rm //usr/bin/bpm
